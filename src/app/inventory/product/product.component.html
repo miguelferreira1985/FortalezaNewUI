@@ -1,0 +1,78 @@
+<mat-form-field class="example-full-width filter-field-space">
+    <mat-label>Filtrar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Hilo">
+    <mat-icon matSuffix color="primary">filter_list</mat-icon>
+</mat-form-field>
+
+<button class="button-table" mat-raised-button color="primary">
+    <mat-icon>add</mat-icon>
+</button>
+
+
+
+<div class="mat-elevation-z8">
+    <table class="mat-elevation-z8 " mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+        <ng-container matColumnDef="id">
+            <th class="th-product-field" mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td [ngClass]="{'make-red': row.stock < 51 }" mat-cell *matCellDef="let row"> {{row.id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="code">
+            <th class="th-product-field" mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+            <td [ngClass]="{'make-red': row.stock < 51 }" mat-cell *matCellDef="let row"> {{row.code}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="name">
+            <th class="th-product-field" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td [ngClass]="{'make-red': row.stock < 51 }" mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="stock">
+            <th class="th-product-field" mat-header-cell *matHeaderCellDef mat-sort-header> Stock </th>
+            <td [ngClass]="{'make-red': row.stock < 51 }" mat-cell *matCellDef="let row"> {{row.stock}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="color">
+            <th class="th-product-field" mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+            <td [ngClass]="{'make-red': row.stock < 51 }" mat-cell *matCellDef="let row"> {{row.color}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th class="th-action" mat-header-cell *matHeaderCellDef mat-sort-header> Accion </th>
+            <td mat-cell *matCellDef="editar">
+                <button 
+                matTooltip="Detalle de producto."
+                mat-raised-button 
+                (click)="viewProductDetail()" 
+                color="primary">
+                    <mat-icon>description</mat-icon>
+                </button>
+                <button 
+                matTooltip="Editar producto."
+                class="button-table" 
+                mat-raised-button 
+                color="accent">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button 
+                matTooltip="Eliminar producto."
+                class="button-table" 
+                mat-raised-button 
+                color="warn">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+</div>
