@@ -15,11 +15,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatCellDef } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
- 
- @NgModule({
+
+@NgModule({
     imports: [
        CommonModule,
        MatButtonModule,
@@ -61,5 +61,5 @@ import { MatTabsModule } from '@angular/material/tabs';
        MatDatepickerModule,
     ]
  })
- 
+
  export class AngularMaterialModule { }

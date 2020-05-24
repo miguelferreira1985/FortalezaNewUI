@@ -1,9 +1,19 @@
 <mat-toolbar *ngIf="isDisplayed()" color="primary" class="app-header">
-  <div><a [routerLink]="[ '/home']" class="positronx">La Fortaleza</a> </div> 
-  <span class="nav-tool-items">
-    <a mat-button  [routerLink]="[ '/home' ]" routerLinkActive="active">Inicio</a>
-    <a mat-button  [routerLink]="[ '/inventory' ]" routerLinkActive="active">Inventario</a>
-    <a mat-button  [routerLink]="[ '/login' ]" routerLinkActive="active">Cerrar sesión</a>
-  </span>
+
+    <div>
+
+        <a [routerLink]="[ '/home']" class="positronx">La Fortaleza</a>
+
+    </div>
+
+    <span class="nav-tool-items">
+
+      <a mat-button  [routerLink]="[ '/home' ]" routerLinkActive="active">Inicio</a>
+      <a mat-button  [routerLink]="[ '/inventory' ]" routerLinkActive="active">Inventario</a>
+      <a mat-button  [routerLink]="[ '/login' ]" (click)="logOut()" routerLinkActive="active">Cerrar sesión</a>
+
+    </span>
+
 </mat-toolbar>
+
 <router-outlet></router-outlet>

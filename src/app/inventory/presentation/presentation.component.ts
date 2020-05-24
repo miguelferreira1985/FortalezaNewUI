@@ -1,16 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Presentation } from '../../shared/models/presentation.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-
-const PRESENTATION_DATA: Presentation[] = [
-  {id: 1, name: "Pieza", abbreviation: "pza", description: "Esta es una descripción de prueba para el UI."},
-  {id: 2, name: "Caja", abbreviation: "cja", description: "Esta es una descripción de prueba para el UI."},
-  {id: 3, name: "Litro", abbreviation: "lt", description: "Esta es una descripción de prueba para el UI."},
-  {id: 4, name: "Metro", abbreviation: "mt", description: "Esta es una descripción de prueba para el UI."},
-  {id: 5, name: "Bolsa", abbreviation: "bls", description: "Esta es una descripción de prueba para el UI."},
-];
+import { PresentationService } from '../../services/pesentation.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-presentation',
@@ -19,21 +13,28 @@ const PRESENTATION_DATA: Presentation[] = [
 })
 export class PresentationComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'id', 'name', 'abbreviation', 'description', 'action'];
+  presentations: Presentation[];
+
+  displayedColumns: string[] = [ 'PresentationID', 'Name', 'Abbrevation', 'Descripton', 'Action'];
   dataSource: MatTableDataSource <Presentation>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor() { 
+  constructor( private presentationService: PresentationService ) {
 
-    this.dataSource = new MatTableDataSource(PRESENTATION_DATA);
+    this.presentationService.getActivePresentation()
+    .subscribe((data: Presentation[]) => {
+      this.presentations = data;
+      this.dataSource = new MatTableDataSource(this.presentations);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+
   }
 
   ngOnInit(): void {
 
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -43,6 +44,7 @@ export class PresentationComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
   }
 
 }

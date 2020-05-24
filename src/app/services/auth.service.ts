@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModel } from '../shared/models/user.model';
 import { map } from 'rxjs/operators';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -9,47 +10,43 @@ import { map } from 'rxjs/operators';
 
 export class AuthService{
 
-    private url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
-    private apiKey = 'AIzaSyAk0I3gQ92CAmnzmsvyILz93Bnl5eDLrVg';
+    private url = 'http://localhost:51551';
+
+    private reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded','No-Auth':'True' });
 
     userToken: string;
+    tokenExpires: string;
 
-    // Crear nuevo Usuario
-    // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
+    userData: string;
 
-
-    // Loguear usuario
-    //https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
+    expirationDate: Date;
+    currentDate: Date;
 
     constructor( private http: HttpClient) {}
 
     logOut() {
-        localStorage.clear()
+        localStorage.clear();
     }
 
     login( user: UserModel ) {
 
-        const authData = {
-            ...user,
-            returnSecureToken: true
-        };
+        this.userData = `username=${ user.email}&password=${ user.password }&grant_type=password`;
 
         return this.http.post(
-            `${ this.url }signInWithPassword?key=${ this.apiKey }`,
-            authData
+            `${ this.url }/token`, this.userData, { headers: this.reqHeader}
         ).pipe(
             map( resp => {
-                this.saveToken( resp['idToken'] );
+                this.saveTokenInfo( resp[ 'access_token' ], resp['.expires'] );
                 return resp;
             })
         );
     }
 
-    addNewUser( user: UserModel ) {}
-
-    private saveToken( idToken: string) {
+    private saveTokenInfo( idToken: string, tokenExpires: string) {
         this.userToken = idToken;
+        this.tokenExpires = tokenExpires;
         localStorage.setItem('token', idToken);
+        localStorage.setItem('tokenExpiration', tokenExpires);
     }
 
     readToken() {
@@ -62,8 +59,17 @@ export class AuthService{
     }
 
     isAuthenticated(): boolean {
-        console.log(localStorage.getItem('token'));
-        return this.userToken.length > 2;
+        if ( localStorage.getItem('token') != null ){
+            this.currentDate = new Date();
+            this.expirationDate = new Date(localStorage.getItem('tokenExpiration'));
+            if ( this.expirationDate
+                > this.currentDate ){
+                console.log('Entre en la fecha');
+                return true;
+            }
+        }else{
+            return false;
+        }
     }
 }
 

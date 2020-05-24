@@ -41,26 +41,26 @@ export class ProductComponent implements OnInit {
   displayedColumns: string[] = [ 'id', 'code', 'name', 'stock', 'color', 'action'];
   dataSource: MatTableDataSource <Product>;
 
-  
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor( public dialog: MatDialog) {
 
     this.dataSource = new MatTableDataSource (PRODUCT_DATA);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
 
    }
 
    viewProductDetail(): void{
-    const dialogRef = this.dialog.open(ProductDetailComponent,{
+    const dialogRef = this.dialog.open(ProductDetailComponent, {
       width: '400px',
       data: { name: 'hola'}
     });
   }
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+
   }
 
   applyFilter(event: Event) {
@@ -70,6 +70,7 @@ export class ProductComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
   }
 }
 

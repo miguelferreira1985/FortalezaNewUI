@@ -8,13 +8,14 @@ export class DisplayElementsService {
 
   public location;
 
-  constructor(private _router: Router) {
+  constructor( private route: Router) {
 
-      this.location = _router.url;
+      this.location = route.url;
 
    }
 
    getPageDisplayed() {
     return this.location;
   }
+
 }

@@ -1,14 +1,12 @@
 <mat-form-field class="example-full-width filter-field-space">
     <mat-label>Filtrar</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Hilo">
+    <input matInput (keyup)="applyFilter($event)" name="search" ngDefaultControlplaceholder="Ex. Hilo">
     <mat-icon matSuffix color="primary">filter_list</mat-icon>
 </mat-form-field>
 
-<button class="button-table" mat-raised-button color="primary">
+<!-- <button class="button-table" mat-raised-button color="primary">
     <mat-icon>add</mat-icon>
 </button>
-
-
 
 <div class="mat-elevation-z8">
     <table class="mat-elevation-z8 " mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
@@ -44,26 +42,14 @@
 
         <ng-container matColumnDef="action">
             <th class="th-action" mat-header-cell *matHeaderCellDef mat-sort-header> Accion </th>
-            <td mat-cell *matCellDef="editar">
-                <button 
-                matTooltip="Detalle de producto."
-                mat-raised-button 
-                (click)="viewProductDetail()" 
-                color="primary">
+            <td mat-cell *matCellDef="">
+                <button matTooltip="Detalle de producto." mat-raised-button (click)="viewProductDetail()" color="primary">
                     <mat-icon>description</mat-icon>
                 </button>
-                <button 
-                matTooltip="Editar producto."
-                class="button-table" 
-                mat-raised-button 
-                color="accent">
+                <button matTooltip="Editar producto." class="button-table" mat-raised-button color="accent">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button 
-                matTooltip="Eliminar producto."
-                class="button-table" 
-                mat-raised-button 
-                color="warn">
+                <button matTooltip="Eliminar producto." class="button-table" mat-raised-button color="warn">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
@@ -75,4 +61,4 @@
     </table>
 
     <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
-</div>
+</div> -->

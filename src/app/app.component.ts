@@ -14,8 +14,8 @@ export class AppComponent {
 
 
   constructor( private displayElement: DisplayElementsService,
-                private auth: AuthService,
-                private router: Router){
+               private auth: AuthService,
+               private router: Router ) {
 
 
   }
@@ -23,7 +23,7 @@ export class AppComponent {
   location = this.displayElement.getPageDisplayed();
 
   isDisplayed(){
-    if( location.pathname == '/login' ){
+    if ( location.pathname === '/login' ) {
       return false;
     }else{
       return true;

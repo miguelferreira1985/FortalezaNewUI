@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   user: UserModel = new UserModel();
 
   constructor( private auth: AuthService,
-                private router: Router) { }
+               private router: Router) { }
 
   login( form: NgForm ) {
 
@@ -31,25 +31,19 @@ export class LoginComponent implements OnInit {
 
     this.auth.login( this.user )
       .subscribe( resp => {
-
-        console.log(resp);
         Swal.close();
         this.router.navigateByUrl('/home');
 
       }, (err) => {
-        console.log(err.error.error.message);
         Swal.fire({
           icon: 'error',
-          title: 'Error al autenticar',
-          text: err.error.error.message
+          title: err.error.error,
+          text: err.error.error_description
         });
       });
-
   }
 
   ngOnInit(): void {
-
-    console.log(localStorage.getItem('token'));
 
   }
 

@@ -1,18 +1,26 @@
 <h1 class="form-title" mat-dialog-title>{{ data.action }} {{ data.title }}</h1>
-<div mat-dialog-content>
-  <form>
-    <mat-form-field appearance="outline">
-      <mat-label>ID</mat-label>
-      <input matInput placeholder="Id color" readonly>
-    </mat-form-field>
 
-    <mat-form-field class="field-rigth-space" appearance="outline">
-      <mat-label>Nombre</mat-label>
-      <input   matInput placeholder="Ej. Verde" >
-    </mat-form-field>
-  </form>
+<div mat-dialog-content>
+
+    <form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>ID</mat-label>
+            <input matInput placeholder="Id color" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="field-rigth-space" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Ej. Verde">
+        </mat-form-field>
+
+    </form>
+
 </div>
-<div mat-dialog-actions class="button-to-rigth" >
-  <button mat-stroked-button  color="warn" (click)="onNoClick()">Cancelar</button>
-  <button mat-raised-button class="button-table" color="primary"  cdkFocusInitial>{{ data.button }}</button>
+
+<div mat-dialog-actions class="button-to-rigth">
+
+    <button mat-stroked-button color="warn" (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button class="button-table" color="primary" cdkFocusInitial>{{ data.button }}</button>
+
 </div>

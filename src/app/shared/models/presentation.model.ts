@@ -1,13 +1,15 @@
 export class Presentation {
-    id: number;
-    name: string;
-    abbreviation: string;
-    description: string;
+    PresentationID: number;
+    Name: string;
+    Abbrevation: string;
+    Descripton: string;
+    IsActivated: boolean;
 
-    constructor(id: number, name: string, abbreviation: string, description: string){
-        this.id = id;
-        this.name = name;
-        this.abbreviation = abbreviation;
-        this.description = description;
+    constructor(id: number, name: string, abbreviation: string, description: string, isActivated: boolean){
+        this.PresentationID = id;
+        this.Name = name;
+        this.Abbrevation = abbreviation;
+        this.Descripton = description;
+        this.IsActivated = isActivated;
     }
 }
