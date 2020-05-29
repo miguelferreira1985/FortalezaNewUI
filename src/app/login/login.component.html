@@ -8,25 +8,25 @@
             <mat-card-title class="form-title">La Fortaleza</mat-card-title>
         </mat-card-header>
 
-        <form (ngSubmit)="login( f )" #f="ngForm" class=" example-form ">
+        <form (ngSubmit)="login( f )" #f="ngForm" class=" example-form">
 
             <mat-card-content>
 
-                <mat-form-field class="example-full-width " [hideRequiredMarker]='true'>
+                <mat-form-field class="example-full-width" [hideRequiredMarker]='true'>
                     <mat-label>Usuario</mat-label>
-                    <input matInput type="email " [(ngModel)]="user.email " name="email" placeholder="example@mail.com" required email>
+                    <input matInput type="email" [(ngModel)]="user.email" name="email" placeholder="example@mail.com" required email>
                     <mat-error *ngIf="f.submitted && f.controls['email'].errors">El correo es obligatorio</mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width " [hideRequiredMarker]="true ">
+                <mat-form-field class="example-full-width" [hideRequiredMarker]="true">
                     <mat-label>Contraseña</mat-label>
-                    <input matInput type="password" [(ngModel)]="user.password " minlength="8 " name="password" required>
+                    <input matInput type="password" [(ngModel)]="user.password" minlength="8" name="password" required>
                     <mat-error *ngIf="f.submitted && f.controls['password'].errors">Al menos 8 caracteres.</mat-error>
                 </mat-form-field>
 
             </mat-card-content>
 
-            <button mat-stroked-button color="primary" class="btn-block " type="submit ">Iniciar sesión</button>
+            <button mat-stroked-button color="primary" class="btn-block" type="submit">Iniciar sesión</button>
 
         </form>
     </mat-card>

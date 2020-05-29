@@ -24,6 +24,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PresentationService } from './services/pesentation.service';
+import { ColorService } from './services/color.service';
 
 
 
@@ -51,6 +52,8 @@ import { PresentationService } from './services/pesentation.service';
   ],
   providers: [
     PresentationService,
+    ColorService,
+    ColorComponent,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],

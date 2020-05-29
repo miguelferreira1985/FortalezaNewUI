@@ -7,6 +7,7 @@ import { ProductComponent } from './inventory/product/product.component';
 import { CategoryComponent } from './inventory/category/category.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PresentationComponent } from './inventory/presentation/presentation.component';
+import { ColorComponent } from './inventory/color/color.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'inventory', component: InventoryComponent, children: [
     { path: '', component: ProductComponent, outlet: 'products' },
     { path: '', component: CategoryComponent, outlet: 'categories' },
+    { path: '', component: ColorComponent, outlet: 'colors' },
     { path: '', component: PresentationComponent, outlet: 'presentations'}
   ], canActivate: [ AuthGuard ]},
   { path: '**', redirectTo: 'login'}

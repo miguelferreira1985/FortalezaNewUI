@@ -1,26 +1,28 @@
 <h1 class="form-title" mat-dialog-title>{{ data.action }} {{ data.title }}</h1>
 
-<div mat-dialog-content>
+<form #f="ngForm" (ngSubmit)="updateColor( f )">
 
-    <form>
+    <div mat-dialog-content>
+
+
 
         <mat-form-field appearance="outline">
             <mat-label>ID</mat-label>
-            <input matInput placeholder="Id color" readonly>
+            <input matInput [(ngModel)]="color.ColorID" name="colorId" style="text-align: center;" readonly>
         </mat-form-field>
 
         <mat-form-field class="field-rigth-space" appearance="outline">
             <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Ej. Verde">
+            <input matInput [(ngModel)]="color.Name" name="name" placeholder="Ej. Verde" required>
+            <mat-error *ngIf="f.submitted && f.controls['name'].errors">Ingrese un color.</mat-error>
         </mat-form-field>
+    </div>
 
-    </form>
+    <div mat-dialog-actions class="button-to-rigth">
 
-</div>
+        <button mat-stroked-button type="button" (click)="onNoClick()" color="warn">Cancelar</button>
+        <button mat-raised-button type="submit" class="button-table" color="primary">{{ data.button }}</button>
 
-<div mat-dialog-actions class="button-to-rigth">
+    </div>
 
-    <button mat-stroked-button color="warn" (click)="onNoClick()">Cancelar</button>
-    <button mat-raised-button class="button-table" color="primary" cdkFocusInitial>{{ data.button }}</button>
-
-</div>
+</form>

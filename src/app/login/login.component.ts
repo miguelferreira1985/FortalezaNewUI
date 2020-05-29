@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       .subscribe( resp => {
         Swal.close();
         this.router.navigateByUrl('/home');
-
       }, (err) => {
         Swal.fire({
           icon: 'error',

@@ -1,9 +1,7 @@
 export class Color {
-    id: number;
-    name: string;
-
-    constructor(id: number, name: string){
-        this.id = id;
-        this.name = name;
-    }
+    ColorID: number;
+    Name: string;
+    CreatedDate: Date;
+    ModifiedDate: Date;
+    IsActivated: boolean;
 }

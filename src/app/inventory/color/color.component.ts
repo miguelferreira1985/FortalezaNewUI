@@ -1,23 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Color } from '../../shared/models/color.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatTableDataSource } from '@angular/material/table';
+import {MatDialog } from '@angular/material/dialog';
 import { ColorFormComponent } from '../../shared/color-form/color-form.component';
+import { ColorService } from '../../services/color.service';
+import Swal from 'sweetalert2';
 
-const COLOR_DATA: Color[] = [
-  {id: 1, name: 'Rojo'},
-  {id: 2, name: 'Verde'},
-  {id: 3, name: 'Lila'},
-  {id: 4, name: 'Morado'},
-  {id: 5, name: 'Dorado'},
-  {id: 6, name: 'Amarillo'},
-  {id: 7, name: 'Azul'},
-  {id: 8, name: 'Vino'},
-  {id: 9, name: 'Carmin'},
-  {id: 10, name: 'Purpura'},
-];
 
 @Component({
   selector: 'app-color',
@@ -26,36 +16,101 @@ const COLOR_DATA: Color[] = [
 })
 export class ColorComponent implements OnInit {
 
-  id: number;
+  color: Color[];
 
-  displayedColumns: string[] = [ 'id', 'name', 'action'];
-  dataSource: MatTableDataSource <Color>;
+  displayedColumns: string[] = [ 'ColorID', 'Name', 'ModifiedDate', 'Actions'];
+  dataSource: MatTableDataSource<Color>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor( private dialog: MatDialog) {
+  constructor( private dialog: MatDialog,
+               private colorService: ColorService,
+               private changeDetectorRefs: ChangeDetectorRef ) {
+    this.getActiveColors();
+  }
 
-    this.dataSource = new MatTableDataSource(COLOR_DATA);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  getActiveColors() {
+    this.colorService.getActiveColor()
+    .subscribe((data: Color[]) => {
+      this.color = data;
+      this.dataSource = new MatTableDataSource(this.color);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
 
+  refreshOnTab($event) {
+    this.getActiveColors();
   }
 
   addColor(): void{
-    const dialogRef = this.dialog.open(ColorFormComponent,{
+    const dialogRef = this.dialog.open(ColorFormComponent, {
       width: '480px',
       data: { action: 'Agregar', title: 'Color', button: 'Guardar'}
+    }).afterClosed().subscribe(result => {
+      this.refresh();
     });
   }
 
-  editColor(): void{
+  editColor(id: number, name: string) {
     const dialogRef = this.dialog.open(ColorFormComponent, {
       width: '480px',
-      data: { action: 'Editar', title: 'Color', button: 'Editar', id: this.id}
+      data: {
+        action: 'Editar',
+        title: 'Color',
+        button: 'Editar',
+        colorId: id,
+        colorName: name }
     });
+  }
 
-    console.log( this.id);
+  deleteColor( id: number, name: string ) {
+    console.log(name);
+    Swal.fire({
+      title: `¿Seguro que desea borrar el color ${ name }?`,
+      text: '!Esta acción no se puede deshacer!',
+      icon:  'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#673ab7',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, deseo borrarlo'
+    }).then((result) => {
+      Swal.fire({
+        allowOutsideClick: false,
+        icon: 'info',
+        text: 'Espere un momento...'
+      });
+      Swal.showLoading();
+      if ( result.value ) {
+        this.colorService.deleteColor(id).subscribe( (resp: any) => {
+          Swal.fire(
+            '!Borrado¡',
+            `El color ${ name } fue borrado con exito`,
+            'success'
+          );
+        }, (err) => {
+          Swal.fire({
+            allowOutsideClick: false,
+            icon: 'error',
+            title: err.error.Message,
+          });
+        });
+      }
+    });
+  }
+
+  // this is not working yet, I am trying to refresh the table after add some data
+  refresh() {
+    console.log("refresh");
+    this.colorService.getActiveColor()
+    .subscribe((data: Color[]) => {
+      this.color = data;
+      this.dataSource = new MatTableDataSource(this.color);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+    this.changeDetectorRefs.detectChanges();
   }
 
   ngOnInit(): void {
